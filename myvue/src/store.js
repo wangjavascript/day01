@@ -16,22 +16,47 @@ export default new Vuex.Store({
         return paly.id == item.id
       })
       if (!findIndex) {
-        paly.count = 1;
+        //paly.count = 1;
+        Vue.set(paly, 'count', 1)
         state.crodList.push(paly)
       } else {
         findIndex.count++
       }
-
       state.countNum = state.crodList.reduce((t, i) => {
         return t + i.count
       }, 0)
-
       state.countJa = state.crodList.reduce((t, i) => {
         return t + i.count * i.price
       }, 0)
-
+    },
+    setNumAdd(state, paly) {
+      var findIndex = state.crodList.find((item) => {
+        return paly == item.id
+      })
+      if (findIndex && findIndex.count < 5) {
+        findIndex.count++
+      }
+      state.countNum = state.crodList.reduce((t, i) => {
+        return t + i.count
+      }, 0)
+      state.countJa = state.crodList.reduce((t, i) => {
+        return t + i.count * i.price
+      }, 0)
+    },
+    setNumSub(state, paly) {
+      var findIndex = state.crodList.find((item) => {
+        return paly == item.id
+      })
+      if (findIndex && findIndex.count > 1) {
+        findIndex.count--
+      }
+      state.countNum = state.crodList.reduce((t, i) => {
+        return t + i.count
+      }, 0)
+      state.countJa = state.crodList.reduce((t, i) => {
+        return t + i.count * i.price
+      }, 0)
     }
-
   },
   actions: {
 

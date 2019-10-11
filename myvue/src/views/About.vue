@@ -12,14 +12,18 @@
             <div>
               单价： ￥
               <span>{{item.price}}</span>
-              <div>{{item.count}}</div>
+              <div class="num">
+                <span class="sub" @click="setSub(item.id,0)">-</span>
+                {{item.count}}
+                <span class="add" @click="setAdd(item.id,1)">+</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
       <div class="ruguo" v-else>
-         <img src="../assets/images/没有更多.png" alt />
-         <p>你的购物车还是空的哦!</p>
+        <img src="../assets/images/没有更多.png" alt />
+        <p>你的购物车还是空的哦!</p>
       </div>
     </div>
     <div class="foot">
@@ -33,18 +37,25 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 export default {
   data() {
     return {};
   },
   computed: {
-    ...mapState(["crodList",'countNum','countJa'])
+    ...mapState(["crodList", "countNum", "countJa"])
   },
   methods: {
+    setSub(id,num) {
+      this.setNumSub(id, num);
+    },
+    setAdd(id,num) {
+      this.setNumAdd(id, num);
+    },
     getFu() {
       this.$router.push({ path: "/fu" });
-    }
+    },
+    ...mapMutations(["setNumAdd",'setNumSub'])
   }
 };
 </script>
@@ -100,6 +111,7 @@ h3 {
   width: 70%;
   line-height: 40px;
   padding-top: 5px;
+  position: relative;
 }
 .box .right div:nth-child(1) {
   overflow: hidden;
@@ -110,11 +122,42 @@ h3 {
   color: red;
   font-size: 18px;
 }
-.ruguo img{
-  margin:25px auto;
+.ruguo img {
+  margin: 25px auto;
   padding-left: 135px;
 }
-.ruguo p{
+.ruguo p {
   text-align: center;
+}
+.box .right .num {
+  position: absolute;
+  bottom: 20px;
+  right: 10px;
+  width: 100px;
+  height: 20px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.box .right .num .sub {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 1px solid blue;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 16px;
+  color: blue;
+}
+.box .right .num .add {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 1px solid blue;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 16px;
+  color: white;
+  background: blue;
 }
 </style>
